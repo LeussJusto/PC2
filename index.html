@@ -1,12 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    
+
+    <h1>Carrito de Compras</h1>
+
+    <div id="productos">
+        <div class="producto">
+            <span>Laptop: $1200</span>
+            <button onclick="agregarProducto('Laptop', 1200)">Agregar</button>
+        </div>
+        <div class="producto">
+            <span>Mouse: $25</span>
+            <button onclick="agregarProducto('Mouse', 25)">Agregar</button>
+        </div>
+        <div class="producto">
+            <span>Teclado: $45</span>
+            <button onclick="agregarProducto('Teclado', 45)">Agregar</button>
+        </div>
+        <div class="producto">
+            <span>Monitor: $1800</span>
+            <button onclick="agregarProducto('Monitor', 1800)">Agregar</button>
+        </div>
+    </div>
+
+    <h2>Productos en el Carrito</h2>
+    <div id="carrito"></div>
+
+    <button onclick="mostrarDetalles()">Mostrar Detalles</button>
 </body>
 <script src="script.js"></script>
+
 </html>
