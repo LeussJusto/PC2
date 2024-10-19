@@ -5,7 +5,6 @@ class Producto {
     }
 }
 
-// Clase CarritoDeCompras
 class CarritoDeCompras {
     constructor() {
         this.productos = [];
@@ -13,16 +12,16 @@ class CarritoDeCompras {
 
     agregarProducto(producto) {
         this.productos.push(producto);
-        document.write(`${producto.nombre} ha sido agregado al carrito.<br>`);
+        alert(`${producto.nombre} ha sido agregado al carrito.`);
     }
 
     eliminarProducto(nombreProducto) {
         const index = this.productos.findIndex(prod => prod.nombre === nombreProducto);
         if (index !== -1) {
             this.productos.splice(index, 1);
-            document.write(`${nombreProducto} ha sido eliminado del carrito.<br>`);
+            alert(`${nombreProducto} ha sido eliminado del carrito.`);
         } else {
-            document.write(`${nombreProducto} no se encontró en el carrito.<br>`);
+            alert(`${nombreProducto} no se encontró en el carrito.`);
         }
     }
 
@@ -40,39 +39,58 @@ class CarritoDeCompras {
 
     mostrarDetalles() {
         if (this.productos.length === 0) {
-            document.write('El carrito está vacío.<br>');
+            return 'El carrito está vacío.';
         } else {
-            document.write('Productos en el carrito:<br>');
-            this.productos.forEach(prod => document.write(`- ${prod.nombre}: $${prod.precio}<br>`));
+            let detalles = 'Productos en el carrito:\n';
+            this.productos.forEach(prod => detalles += `- ${prod.nombre}: $${prod.precio}\n`);
 
             const subtotal1 = this.calcularSubtotal1();
-            document.write(`Subtotal 1 (suma de productos): $${subtotal1}<br>`);
+            detalles += `Subtotal 1 (suma de productos): $${subtotal1}\n`;
 
             const descuento = this.calcularDescuento(subtotal1);
-            document.write(`Descuento: $${descuento}<br>`);
+            detalles += `Descuento: $${descuento}\n`;
 
             const subtotal2 = subtotal1 - descuento;
-            document.write(`Subtotal 2 (Subtotal 1 - Descuento): $${subtotal2}<br>`);
+            detalles += `Subtotal 2 (Subtotal 1 - Descuento): $${subtotal2}\n`;
 
             const igv = this.calcularIGV(subtotal2);
-            document.write(`IGV (18% del Subtotal 2): $${igv}<br>`);
+            detalles += `IGV (18% del Subtotal 2): $${igv}\n`;
 
             const total = subtotal2 + igv;
-            document.write(`Total a pagar (Subtotal 2 + IGV): $${total}<br>`);
+            detalles += `Total a pagar (Subtotal 2 + IGV): $${total}\n`;
+
+            return detalles;
         }
     }
 }
 
 const carrito = new CarritoDeCompras();
 
-const producto1 = new Producto('Laptop', 1200);
-const producto2 = new Producto('Mouse', 25);
-const producto3 = new Producto('Teclado', 45);
-const producto4 = new Producto('Monitor', 1800); 
+function agregarProducto(nombre, precio) {
+    const producto = new Producto(nombre, precio);
+    carrito.agregarProducto(producto);
+    mostrarCarrito();
+}
 
-carrito.agregarProducto(producto1);
-carrito.agregarProducto(producto2);
-carrito.agregarProducto(producto3);
-carrito.agregarProducto(producto4);
+function eliminarProducto(nombre) {
+    carrito.eliminarProducto(nombre);
+    mostrarCarrito();
+}
 
-carrito.mostrarDetalles(); 
+function mostrarCarrito() {
+    const carritoDiv = document.getElementById('carrito');
+    carritoDiv.innerHTML = '';
+    carrito.productos.forEach(prod => {
+        carritoDiv.innerHTML += `
+            <div>
+                ${prod.nombre}: $${prod.precio}
+                <button onclick="eliminarProducto('${prod.nombre}')">Eliminar</button>
+            </div>
+        `;
+    });
+}
+
+function mostrarDetalles() {
+    const detalles = carrito.mostrarDetalles();
+    alert(detalles);
+}
